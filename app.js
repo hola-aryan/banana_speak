@@ -2,15 +2,30 @@ var btnTranslate = document.querySelector("#btn-translate");
 var txtarea = document.querySelector("#txtarea");
 var outputDiv = document.querySelector("#output");
 
-outputDiv.innerText="Tanay Pratap";
+var serverUrl = "https://api.funtranslations.com/translate/minion.json"
 
-btnTranslate.addEventListener("click",function clickeventhandler() {
-    console.log("clicked");
-})
-btnTranslate.addEventListener("click",function valTxtArea() {
-    console.log("input "+ txtarea.value);
- })
+function getTranslation(text){
+    return serverUrl+ "?text="+text
+}
 
+function errorHandler(error){
+    console.log("error occured", error);
+    alert("Something wrong with Server");
+}
+
+ function clickhandler(){
+    var inputText=txtarea.value;
+
+    fetch(getTranslation(inputText))
+    .then(response => response.json())
+    .then(json => {
+        var translatedText = json.contents.translated
+        outputDiv.innerText = translatedText;
+    })
+ };
+
+ btnTranslate.addEventListener("click", clickhandler)
+ 
 // // Input and output on website
 
 // console.log("Script is working in diffent file");
